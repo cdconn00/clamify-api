@@ -14,7 +14,6 @@
     <Folder Include="Clients\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Models\" />
-    <Folder Include="Providers\Interfaces\" />
     <Folder Include="Validators\Interfaces\" />
     <Folder Include="TypeValues\" />
     <Folder Include="Properties\" />

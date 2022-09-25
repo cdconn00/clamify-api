@@ -31,11 +31,12 @@
     <Folder Include="TestUtilities\" />
     <Folder Include="TestData\" />
     <Folder Include="RequestHandling\" />
-    <Folder Include="Core\" />
+    <Folder Include="Web\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Clamify.Entities\Clamify.Entities.csproj" />
+    <ProjectReference Include="..\..\src\Clamify.Web\Clamify.Web.csproj" />
   </ItemGroup>
 
 </Project>
