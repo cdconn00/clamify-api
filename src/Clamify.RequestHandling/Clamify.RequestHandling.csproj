@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Clamify.Core\Clamify.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\Requests\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Providers\DtoProviders\" />
+    <Folder Include="Providers\Interfaces\" />
+    <Folder Include="Providers\ResponseProviders\" />
+    <Folder Include="Validators\Interfaces\" />
+  </ItemGroup>
+
+</Project>
