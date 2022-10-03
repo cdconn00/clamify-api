@@ -16,7 +16,7 @@ public static class MockClamifyContextFactory
     public static ClamifyContext GenerateMockContext()
     {
         var options = new DbContextOptionsBuilder<ClamifyContext>()
-            .UseInMemoryDatabase(databaseName: "mock_CarrierManagementContext")
+            .UseInMemoryDatabase(databaseName: "mock_ClamifyContext")
             .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options;
 

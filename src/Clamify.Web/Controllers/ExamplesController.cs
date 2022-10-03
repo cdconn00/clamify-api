@@ -1,4 +1,4 @@
-﻿using System.Net;
+﻿using Clamify.Core.Providers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clamify.Web.Controllers;
@@ -8,14 +8,17 @@ namespace Clamify.Web.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
-public class ExampleController
+public class ExamplesController : ControllerBase
 {
-    /// <summary>
-    /// Constructors the example controller
-    /// </summary>
-    public ExampleController()
-    {
+    private readonly IExampleProvider _exampleProvider;
 
+    /// <summary>
+    /// Constructs the controller.
+    /// </summary>
+    /// <param name="exampleProvider">Provider to get examples from the DB.</param>
+    public ExamplesController(IExampleProvider exampleProvider)
+    {
+        _exampleProvider = exampleProvider;
     }
 
     /// <summary>
@@ -25,6 +28,6 @@ public class ExampleController
     [HttpGet(nameof(Examples))]
     public ActionResult Examples()
     {
-        return new OkObjectResult("howdy");
+        return Ok(_exampleProvider.Get());
     }
 }

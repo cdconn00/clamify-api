@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Clamify.Core.Providers;
+using Clamify.Core.Providers.Interfaces;
+using Clamify.Core.Writers;
+using Clamify.Core.Writers.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,9 +37,11 @@ public static class ServiceCollectionExtensions
 
     private static void RegisterProviders(this IServiceCollection services)
     {
+        services.AddTransient<IExampleProvider, ExampleProvider>();
     }
 
     private static void RegisterWriters(this IServiceCollection services)
     {
+        services.AddTransient<IExampleWriter, ExampleWriter>();
     }
 }
