@@ -5,7 +5,7 @@ using Clamify.Core.Configuration;
 namespace Clamify.RequestHandling.Configuration;
 
 /// <summary>
-/// Provides methods to register CarrierManagement.RequestHandling project dependencies.
+/// Provides methods to register Clamify.RequestHandling project dependencies.
 /// </summary>
 public static class ServiceCollectionExtensions
 {

@@ -31,5 +31,5 @@ public class ClamifyContext : DbContext
     /// <summary>
     /// Example DbSet for project initialization and test verification.
     /// </summary>
-    public virtual DbSet<Example> Transactions { get; set; }
+    public virtual DbSet<Example> Examples { get; set; }
 }
