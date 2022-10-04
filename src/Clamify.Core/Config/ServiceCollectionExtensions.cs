@@ -31,7 +31,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(_ => new MemoryCacheEntryOptions
         {
             // Default cache expiration time of 12 hours, since user name and part number data is unlikely to change very often
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(720)
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(720),
         });
     }
 

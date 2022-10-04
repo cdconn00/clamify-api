@@ -24,7 +24,7 @@ public abstract class ResponseMessageBase
     /// Returns a stringified combination of all error messages.
     /// </summary>
     [JsonIgnore]
-    public string CombinedErrorMessages => Errors != null ? string.Join(",", Errors.Select(x => x.ShortMessage)) : "";
+    public string CombinedErrorMessages => Errors != null ? string.Join(",", Errors.Select(x => x.ShortMessage)) : string.Empty;
 
     /// <summary>
     /// Adds an error to the list with a specific message.

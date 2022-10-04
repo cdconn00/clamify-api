@@ -13,7 +13,7 @@ public class ExamplesController : ControllerBase
     private readonly IExampleProvider _exampleProvider;
 
     /// <summary>
-    /// Constructs the controller.
+    /// Initializes a new instance of the <see cref="ExamplesController"/> class.
     /// </summary>
     /// <param name="exampleProvider">Provider to get examples from the DB.</param>
     public ExamplesController(IExampleProvider exampleProvider)

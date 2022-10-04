@@ -12,7 +12,7 @@ public class ExampleWriter : IExampleWriter
     private readonly ClamifyContext _context;
 
     /// <summary>
-    /// Constructs the writer object.
+    /// Initializes a new instance of the <see cref="ExampleWriter"/> class.
     /// </summary>
     /// <param name="context">The database context to write to.</param>
     public ExampleWriter(ClamifyContext context)

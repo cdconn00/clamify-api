@@ -1,4 +1,5 @@
-﻿using Clamify.Entities.Context;
+﻿using System.Reflection;
+using Clamify.Entities.Context;
 using Clamify.RequestHandling.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -6,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace Clamify.IntegrationTests.BaseHelpers.StartUp;
 
@@ -16,7 +16,7 @@ namespace Clamify.IntegrationTests.BaseHelpers.StartUp;
 public class IntegrationTestStartup : TestStartupBase
 {
     /// <summary>
-    /// Constructs the IntegrationTestStartup object.
+    /// Initializes a new instance of the <see cref="IntegrationTestStartup"/> class.
     /// </summary>
     /// <param name="configuration">Configuration object to utilize.</param>
     public IntegrationTestStartup(IConfiguration configuration)
@@ -34,9 +34,7 @@ public class IntegrationTestStartup : TestStartupBase
         services.AddDbContext<ClamifyContext>(options =>
             options.UseNpgsql(
                 Configuration.GetConnectionString("Clamify"),
-                x => x.MigrationsAssembly("Clamify.IntegrationTests")
-            )
-        );
+                x => x.MigrationsAssembly("Clamify.IntegrationTests")));
 
         services.AddHttpContextAccessor();
         services.AddTransient(x => x.GetService<IHttpContextAccessor>().HttpContext.User);

@@ -8,7 +8,7 @@ namespace Clamify.Entities.Context;
 public class ClamifyContext : DbContext
 {
     /// <summary>
-    /// Initializes the clamify context object.
+    /// Initializes a new instance of the <see cref="ClamifyContext"/> class.
     /// </summary>
     /// <param name="options">The options to be utilized by ClamifyContext.</param>
     public ClamifyContext(DbContextOptions<ClamifyContext> options)
