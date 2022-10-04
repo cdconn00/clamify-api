@@ -1,0 +1,9 @@
+﻿# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+# C# files
+[*.cs]
+# Disable all .NET analyzers
+dotnet_analyzer_diagnostic.severity = none
+dotnet_diagnostic.severity = none 
+dotnet_diagnostic.CS1591.severity = none
