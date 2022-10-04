@@ -1,0 +1,12 @@
+﻿# Config file to not show errors for auto-generated files in the migrations folder.
+
+# Don't inherit the solution level config file
+root = true
+
+# C# files
+[*.cs]
+
+# Disable all .NET analyzers
+dotnet_analyzer_diagnostic.severity = none
+dotnet_diagnostic.severity = none 
+dotnet_diagnostic.CS1591.severity = none

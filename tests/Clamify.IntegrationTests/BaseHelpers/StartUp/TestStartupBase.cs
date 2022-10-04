@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace Clamify.IntegrationTests.BaseHelpers.StartUp;
 
 /// <summary>
@@ -8,8 +9,17 @@ namespace Clamify.IntegrationTests.BaseHelpers.StartUp;
 /// </summary>
 public abstract class TestStartupBase
 {
+    /// <summary>
+    /// Configuration object for the <see cref="TestStartupBase"/>.
+    /// </summary>
+#pragma warning disable SA1401 // Fields should be private
     protected readonly IConfiguration Configuration;
+#pragma warning restore SA1401 // Fields should be private
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TestStartupBase"/> class.
+    /// </summary>
+    /// <param name="configuration">The configuration object to utilize.</param>
     protected TestStartupBase(IConfiguration configuration)
     {
         Configuration = configuration;

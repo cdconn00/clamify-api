@@ -17,7 +17,7 @@ public class ExamplesControllerTests : StandardIntegrationTestBase
     [Fact]
     public async Task Examples_GivenRequest_ReturnsExamples()
     {
-        var context = IntegrationTestUtilities.GetDbContext();
+        var context = integrationTestUtilities.GetDbContext();
 
         var examples = new[]
         {
@@ -29,7 +29,7 @@ public class ExamplesControllerTests : StandardIntegrationTestBase
         context.Examples.AddRange(examples);
         context.SaveChanges();
 
-        var responseObject = await IntegrationTestUtilities
+        var responseObject = await integrationTestUtilities
             .GetResponseFromGetEndpoint<List<Example>>("api/examples/examples", new { });
 
         responseObject

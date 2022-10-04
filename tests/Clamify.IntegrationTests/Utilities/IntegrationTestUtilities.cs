@@ -1,16 +1,16 @@
-﻿using Clamify.Entities.Context;
+﻿using System.Text;
+using Clamify.Entities.Context;
+using Clamify.IntegrationTests.BaseHelpers.StartUp;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using Clamify.IntegrationTests.BaseHelpers.StartUp;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace Clamify.IntegrationTests.Utilities;
 
@@ -18,18 +18,19 @@ namespace Clamify.IntegrationTests.Utilities;
 /// Utility functions class for integrationt test setup and execution.
 /// </summary>
 /// <typeparam name="TStartup">Startup class containing configuration.</typeparam>
-public class IntegrationTestUtilities<TStartup> where TStartup : TestStartupBase
+public class IntegrationTestUtilities<TStartup>
+    where TStartup : TestStartupBase
 {
-    private TestServer _testServer;
-
     private readonly PostgreSqlTestcontainer _dbContainer =
         new TestcontainersBuilder<PostgreSqlTestcontainer>()
             .WithDatabase(new PostgreSqlTestcontainerConfiguration
             {
                 Database = "mydb",
                 Username = "test",
-                Password = "test"
+                Password = "test",
             }).Build();
+
+    private TestServer _testServer;
 
     /// <summary>
     /// Sets up the test server.
@@ -45,11 +46,9 @@ public class IntegrationTestUtilities<TStartup> where TStartup : TestStartupBase
             config
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
                 .AddInMemoryCollection(new[]
-                    {
-                        new KeyValuePair<string, string>("ConnectionStrings:Clamify", _dbContainer.ConnectionString),
-                    }
-                )
-        )
+                {
+                    new KeyValuePair<string, string>("ConnectionStrings:Clamify", _dbContainer.ConnectionString),
+                }))
         .ConfigureLogging((_, loggingBuilder) =>
         {
             loggingBuilder.AddDebug();
@@ -71,7 +70,7 @@ public class IntegrationTestUtilities<TStartup> where TStartup : TestStartupBase
     /// <summary>
     /// Gets an HttpClient to use in making requests.
     /// </summary>
-    /// <returns>An <see cref="HttpClient"/></returns>
+    /// <returns>An <see cref="HttpClient"/>.</returns>
     public HttpClient GetClient()
     {
         var client = _testServer.CreateClient();
@@ -86,25 +85,11 @@ public class IntegrationTestUtilities<TStartup> where TStartup : TestStartupBase
     /// <returns>A task.</returns>
     public async Task DeleteDatabaseContext()
     {
-        using (var scope = GetScope())
-        {
-            var serviceProvider = scope.ServiceProvider;
-            using (var context = serviceProvider.GetRequiredService<ClamifyContext>())
-            {
-                await context.Database.EnsureDeletedAsync();
-            }
-        }
-    }
+        using var scope = GetScope();
+        var serviceProvider = scope.ServiceProvider;
+        using var context = serviceProvider.GetRequiredService<ClamifyContext>();
 
-    /// <summary>
-    /// Performs a migration on the database to create schema.
-    /// </summary>
-    /// <param name="testServer">The test server to get the context from.</param>
-    /// <returns>A task.</returns>
-    private static async Task MigrateDatabase(TestServer testServer)
-    {
-        var context = testServer.Host.Services.GetRequiredService<ClamifyContext>();
-        await context.Database.MigrateAsync();
+        await context.Database.EnsureDeletedAsync();
     }
 
     /// <summary>
@@ -143,14 +128,23 @@ public class IntegrationTestUtilities<TStartup> where TStartup : TestStartupBase
     {
         var response = await GetClient().PostAsync(
             new Uri(uri, UriKind.Relative),
-            new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json")
-        );
+            new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json"));
 
         var responseContext = await response.Content.ReadAsStringAsync();
 
         return JsonConvert.DeserializeObject<TResponse>(responseContext);
     }
 
+    /// <summary>
+    /// Performs a migration on the database to create schema.
+    /// </summary>
+    /// <param name="testServer">The test server to get the context from.</param>
+    /// <returns>A task.</returns>
+    private static async Task MigrateDatabase(TestServer testServer)
+    {
+        var context = testServer.Host.Services.GetRequiredService<ClamifyContext>();
+        await context.Database.MigrateAsync();
+    }
 
     private IServiceScope GetScope()
     {

@@ -6,26 +6,27 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B223D286-0BA2-4F81-B8CE-D2D011DF8E9D}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clamify.Web", "src\Clamify.Web\Clamify.Web.csproj", "{31BF79F5-8003-4232-95EB-927DA952A86C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.Web", "src\Clamify.Web\Clamify.Web.csproj", "{31BF79F5-8003-4232-95EB-927DA952A86C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F865C11B-C3FA-4447-8325-B204DADB6518}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clamify.Entities", "src\Clamify.Entities\Clamify.Entities.csproj", "{E0C3934E-1CFA-43D2-9CAD-E4372F5B5F57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.Entities", "src\Clamify.Entities\Clamify.Entities.csproj", "{E0C3934E-1CFA-43D2-9CAD-E4372F5B5F57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clamify.RequestHandling", "src\Clamify.RequestHandling\Clamify.RequestHandling.csproj", "{567AB2D2-FBEA-4248-BB84-FB6DF88E31C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.RequestHandling", "src\Clamify.RequestHandling\Clamify.RequestHandling.csproj", "{567AB2D2-FBEA-4248-BB84-FB6DF88E31C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clamify.Core", "src\Clamify.Core\Clamify.Core.csproj", "{AFEE3B78-2E1B-4919-A87F-28837242CCAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.Core", "src\Clamify.Core\Clamify.Core.csproj", "{AFEE3B78-2E1B-4919-A87F-28837242CCAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{77FA996E-CFE6-4D28-B507-434321B24AE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clamify.IntegrationTests", "tests\Clamify.IntegrationTests\Clamify.IntegrationTests.csproj", "{A13961CE-DCFA-465A-B486-95393BEF482C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.IntegrationTests", "tests\Clamify.IntegrationTests\Clamify.IntegrationTests.csproj", "{A13961CE-DCFA-465A-B486-95393BEF482C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clamify.Tests", "tests\Clamify.Tests\Clamify.Tests.csproj", "{5337410A-2087-4D57-9145-34209E1F9A7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.Tests", "tests\Clamify.Tests\Clamify.Tests.csproj", "{5337410A-2087-4D57-9145-34209E1F9A7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

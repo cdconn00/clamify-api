@@ -12,7 +12,7 @@ public class ExampleProvider : IExampleProvider
     private readonly ClamifyContext _context;
 
     /// <summary>
-    /// Constructs the provider
+    /// Initializes a new instance of the <see cref="ExampleProvider"/> class.
     /// </summary>
     /// <param name="context">The clamify database context to pull from.</param>
     public ExampleProvider(ClamifyContext context)

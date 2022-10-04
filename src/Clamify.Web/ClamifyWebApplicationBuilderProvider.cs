@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Clamify.Entities.Context;
+using Clamify.RequestHandling.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
-using Clamify.Entities.Context;
-using Clamify.RequestHandling.Configuration;
 using Serilog.Templates;
 using Serilog.Templates.Themes;
-using System.Reflection;
 
 namespace Clamify.Web;
 
@@ -29,7 +29,8 @@ public static class ClamifyWebApplicationBuilderProvider
 
         webApplicationBuilder.Services.AddDbContext<ClamifyContext>(o =>
         {
-            o.UseNpgsql(webApplicationBuilder.Configuration.GetConnectionString(webApplicationBuilder.Configuration.GetValue<string>("Database:ConnectionString")),
+            o.UseNpgsql(
+                webApplicationBuilder.Configuration.GetConnectionString(webApplicationBuilder.Configuration.GetValue<string>("Database:ConnectionString")),
                 options => { options.EnableRetryOnFailure(); });
 
             if (webApplicationBuilder.Environment.IsDevelopment())
@@ -48,7 +49,8 @@ public static class ClamifyWebApplicationBuilderProvider
         });
 
         webApplicationBuilder.Services.AddCors(options =>
-            options.AddPolicy("AllowAllPolicy",
+            options.AddPolicy(
+                "AllowAllPolicy",
                 b => b.SetIsOriginAllowed(_ => true)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
@@ -73,7 +75,7 @@ public static class ClamifyWebApplicationBuilderProvider
                 Description =
                     "JWT Authorization header using the Bearer scheme: Example: \"Authorization: Bearer {token}\"",
                 In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey
+                Type = SecuritySchemeType.ApiKey,
             });
 
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
@@ -92,7 +94,8 @@ public static class ClamifyWebApplicationBuilderProvider
                 .MinimumLevel.Override("System", new Serilog.Core.LoggingLevelSwitch(LogEventLevel.Warning))
                 .MinimumLevel.Override("Microsoft", new Serilog.Core.LoggingLevelSwitch(LogEventLevel.Warning))
                 .MinimumLevel
-                .Override("Microsoft.EntityFrameworkCore.Database.Command",
+                .Override(
+                    "Microsoft.EntityFrameworkCore.Database.Command",
                     LogEventLevel.Warning) // Disable EFCore from logging everything.
                 .Destructure.ToMaximumDepth(6)
 
@@ -104,7 +107,8 @@ public static class ClamifyWebApplicationBuilderProvider
                         template:
                         "[{@t:HH:mm:ss} ({Substring(SourceContext, LastIndexOf(SourceContext, '.') + 1)})] {@l:u3} - {@m}\n{@x}",
                         formatProvider: null,
-                        nameResolver: null, theme: TemplateTheme.Literate,
+                        nameResolver: null,
+                        theme: TemplateTheme.Literate,
                         applyThemeWhenOutputIsRedirected: false)))
                 .CreateLogger();
 
