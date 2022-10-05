@@ -48,4 +48,4 @@ jobs:
         with:
           context: .
           file: Dockerfile
-          tags: ${GITHUB_RUN_ID}
+          tags: cdconn00/clamify-api:latest
