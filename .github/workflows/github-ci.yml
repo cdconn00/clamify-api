@@ -1,7 +1,8 @@
-name: Run Tests and Docker Build
+name: build and test
 
 on:
   push:
+    branches: ["*"]
   pull_request:
     branches: ["*"]
 
@@ -11,11 +12,11 @@ env:
 jobs:
   build-and-test:
 
-    name: Run Backend Tests
+    name: Backend-Tests-${{matrix.os}}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v3
@@ -31,11 +32,11 @@ jobs:
       run: dotnet test clamify-api.sln
    
   docker-build:
-      name: Run Docker Build
+      name: Docker-Build-${{matrix.os}}
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-latest]
+          os: [ubuntu-latest, windows-latest]
 
       steps:
       -
