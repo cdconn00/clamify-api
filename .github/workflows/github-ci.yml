@@ -29,7 +29,7 @@ jobs:
       run: dotnet restore
     
     - name: Run Unit and Integration Tests
-      run: dotnet test Clamify.sln
+      run: dotnet test clamify-api.sln
    
   docker-build:
       name: build-and-test-${{matrix.os}}
