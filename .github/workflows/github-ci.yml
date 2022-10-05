@@ -1,7 +1,6 @@
 name: Run Tests and Docker Build
 
 on:
-  push:
   pull_request:
     branches: ["*"]
 
@@ -9,6 +8,25 @@ env:
   DOTNET_VERSION: '6.0.302' # The .NET SDK version to use
 
 jobs:
+  lint-project:
+    name: Lint Solution
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-and-test:
 
     name: Run Backend Tests
