@@ -28,5 +28,17 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     
-    - name: Test
+    - name: Run Unit and Integration Tests
       run: dotnet test Clamify.sln
+   
+  docker-build:
+      name: build-and-test-${{matrix.os}}
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macOS-latest]
+
+      steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build --tag ${GITHUB_RUN_ID} --file Dockerfile .
