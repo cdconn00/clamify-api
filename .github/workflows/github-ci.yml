@@ -26,6 +26,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EDITORCONFIG_FILE_NAME: .editorconfig
 
   build-and-test:
 
