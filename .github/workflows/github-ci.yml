@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v3
@@ -36,9 +36,16 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-latest, windows-latest, macOS-latest]
+          os: [ubuntu-latest, windows-latest]
 
       steps:
-      - uses: actions/checkout@v2
-      - name: Build the Docker image
-        run: docker build --tag ${GITHUB_RUN_ID} --file Dockerfile .
+      -
+        name: Checkout 
+        uses: actions/checkout@v2
+      -
+        name: Build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          tags: ${GITHUB_RUN_ID}

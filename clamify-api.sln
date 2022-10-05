@@ -28,6 +28,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.IntegrationTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clamify.Tests", "tests\Clamify.Tests\Clamify.Tests.csproj", "{5337410A-2087-4D57-9145-34209E1F9A7E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{3310CA4C-08E2-4874-B5B2-1B75EDD9837B}"
+	ProjectSection(SolutionItems) = preProject
+		.github\pull_request_template.md = .github\pull_request_template.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{EFE7F056-4688-4FEA-A0BF-63D2C950DCEC}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +79,8 @@ Global
 		{AFEE3B78-2E1B-4919-A87F-28837242CCAA} = {F865C11B-C3FA-4447-8325-B204DADB6518}
 		{A13961CE-DCFA-465A-B486-95393BEF482C} = {77FA996E-CFE6-4D28-B507-434321B24AE7}
 		{5337410A-2087-4D57-9145-34209E1F9A7E} = {77FA996E-CFE6-4D28-B507-434321B24AE7}
+		{3310CA4C-08E2-4874-B5B2-1B75EDD9837B} = {B223D286-0BA2-4F81-B8CE-D2D011DF8E9D}
+		{EFE7F056-4688-4FEA-A0BF-63D2C950DCEC} = {3310CA4C-08E2-4874-B5B2-1B75EDD9837B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C77366EB-D75A-4356-9DB3-225C22FB45CD}
