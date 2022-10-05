@@ -12,7 +12,7 @@ env:
 jobs:
   build-and-test:
 
-    name: build-and-test-${{matrix.os}}
+    name: Backend-Tests-${{matrix.os}}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -32,7 +32,7 @@ jobs:
       run: dotnet test clamify-api.sln
    
   docker-build:
-      name: build-and-test-${{matrix.os}}
+      name: Docker-Build-${{matrix.os}}
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
@@ -42,6 +42,9 @@ jobs:
       -
         name: Checkout 
         uses: actions/checkout@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       -
         name: Build
         uses: docker/build-push-action@v2
