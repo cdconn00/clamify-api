@@ -30,7 +30,7 @@ public class ExampleWriter : IExampleWriter
             new Example(),
             new Example(),
             new Example(),
-            new Example()
+            new Example(),
         };
 
         _context.Examples.AddRange(examples);

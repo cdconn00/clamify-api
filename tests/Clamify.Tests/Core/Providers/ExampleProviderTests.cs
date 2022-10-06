@@ -47,7 +47,7 @@ public class ExampleProviderTests
         {
             new Example
             {
-                ExampleID = 1
+                ExampleID = 1,
             },
         };
 

@@ -40,8 +40,7 @@ public static class ClamifyWebApplicationBuilderProvider
                     builder
                         .AddFilter((category, level) =>
                             category == DbLoggerCategory.Database.Command.Name &&
-                            level == LogLevel.Information
-                        ).AddConsole();
+                            level == LogLevel.Information).AddConsole();
                 });
 
                 o.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging();
@@ -54,9 +53,8 @@ public static class ClamifyWebApplicationBuilderProvider
                 b => b.SetIsOriginAllowed(_ => true)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials()
-            )
-        );
+                    .AllowCredentials()));
+
         webApplicationBuilder.Services.AddControllers();
         webApplicationBuilder.Services.AddHttpContextAccessor();
 

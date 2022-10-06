@@ -263,4 +263,4 @@ dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent
 dotnet_diagnostic.CA1050.severity = silent
-dotnet_diagnostic.CA1707.severity = warning
+dotnet_diagnostic.CA1707.severity = silent
