@@ -20,7 +20,9 @@ public static class ServiceCollectionExtensions
         services.RegisterProviders();
     }
 
+#pragma warning disable IDE0060 // Remove unused parameter, will be implemented later.
     private static void RegisterProviders(this IServiceCollection services)
+#pragma warning restore IDE0060 // Remove unused parameter
     {
     }
 }

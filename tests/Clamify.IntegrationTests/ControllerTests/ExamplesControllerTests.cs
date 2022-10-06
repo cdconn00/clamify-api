@@ -13,7 +13,7 @@ public class ExamplesControllerTests : StandardIntegrationTestBase
     /// <summary>
     /// Integration test method verifies GET requests to the Examples endpoint return data as expected.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A task.</returns>
     [Fact]
     public async Task Examples_GivenRequest_ReturnsExamples()
     {
@@ -23,7 +23,7 @@ public class ExamplesControllerTests : StandardIntegrationTestBase
         {
             new Example(),
             new Example(),
-            new Example()
+            new Example(),
         };
 
         context.Examples.AddRange(examples);

@@ -6,14 +6,14 @@
 public class ErrorMessage
 {
     /// <summary>
-    /// Default constructor utilized in testing.
+    /// Initializes a new instance of the <see cref="ErrorMessage"/> class.
     /// </summary>
     public ErrorMessage()
     {
     }
 
     /// <summary>
-    /// Constructor creates an error message based of a string of text.
+    /// Initializes a new instance of the <see cref="ErrorMessage"/> class based on a message.
     /// </summary>
     /// <param name="messageText">Error message to use.</param>
     public ErrorMessage(string messageText)
@@ -24,7 +24,7 @@ public class ErrorMessage
     }
 
     /// <summary>
-    /// Constructor creates an error message based of an exception.
+    /// Initializes a new instance of the <see cref="ErrorMessage"/> class based on an exception.
     /// </summary>
     /// <param name="e">The exception to use in creation.</param>
     public ErrorMessage(Exception e)

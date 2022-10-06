@@ -14,22 +14,20 @@ public class ClamifyContext : DbContext
     public ClamifyContext(DbContextOptions<ClamifyContext> options)
         : base(options)
     {
-
-    }
-
-    /// <summary>
-    /// Called after the derived context is intialized, allows configuration of models before the models are locked down and 
-    /// the context is initialized.
-    /// </summary>
-    /// <param name="modelBuilder">Object to construct models in the context.</param>
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        Example.ConfigureModel(modelBuilder);
     }
 
     /// <summary>
     /// Example DbSet for project initialization and test verification.
     /// </summary>
     public virtual DbSet<Example> Examples { get; set; }
+
+    /// <summary>
+    /// Called after the derived context is intialized, allows configuration of models before the models are locked down and
+    /// the context is initialized.
+    /// </summary>
+    /// <param name="modelBuilder">Object to construct models in the context.</param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        Example.ConfigureModel(modelBuilder);
+    }
 }

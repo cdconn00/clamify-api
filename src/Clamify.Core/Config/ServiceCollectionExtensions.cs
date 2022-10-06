@@ -18,7 +18,9 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">Services object where dependencies are added.</param>
     /// <param name="configuration">Contains application configuration properties.</param>
+#pragma warning disable IDE0060 // Remove unused parameter, will be implemented in future
     public static void RegisterCoreDependencies(this IServiceCollection services, IConfiguration configuration)
+#pragma warning restore IDE0060 // Remove unused parameter
     {
         services.RegisterCaching();
         services.RegisterProviders();
