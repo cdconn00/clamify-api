@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v3
       - name: Run Unit and Integration Tests
         run: dotnet test clamify-api.sln
 
