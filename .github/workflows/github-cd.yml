@@ -84,11 +84,11 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          context: ${{ secrets.KUBE_CONTEXT }}
+          context: 'default'
 
       - uses: Azure/k8s-deploy@v3.1
         with:
-          namespace: ${{ secrets.KUBE_CONTEXT }}
+          namespace: 'default'
           manifests: kubernetes/deployment.yml
           images: 'ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}'
 
