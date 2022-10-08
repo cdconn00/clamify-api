@@ -77,6 +77,9 @@ jobs:
     needs: push_to_registry
     runs-on: ubuntu-latest
     steps:
+      - name: check out the repo
+        uses: actions/checkout@v2
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
@@ -88,5 +91,5 @@ jobs:
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f kubernetes/deployment.yml
 
-      - name: Verify deployment0a
+      - name: Verify deployment
         run: kubectl rollout status deployment/clamify-api
