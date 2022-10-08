@@ -31,16 +31,16 @@ jobs:
 
   test:
     runs-on: ${{ matrix.os }}
-    needs: build
     strategy:
-    matrix:
-      os: [ubuntu-latest]
+      matrix:
+        os: [ubuntu-latest]
     needs: build
     steps:
-      - uses: actions/checkout@v2
+      - name: check out the repo
+        uses: actions/checkout@v2
       
       - name: Run Unit and Integration Tests
-      run: dotnet test clamify-api.sln
+        run: dotnet test clamify-api.sln
 
   push_to_registry:
     name: Push Docker image to GitHub Packages
