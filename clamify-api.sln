@@ -36,6 +36,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5B6A0245-B056-4318-B32A-3D16CB887953}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
+		github-cd.yml = github-cd.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kubernetes", "kubernetes", "{60254F70-B203-43F1-BE06-842092FD236A}"
+	ProjectSection(SolutionItems) = preProject
+		kubernetes\deployment.yml = kubernetes\deployment.yml
 	EndProjectSection
 EndProject
 Global
@@ -81,6 +87,7 @@ Global
 		{5337410A-2087-4D57-9145-34209E1F9A7E} = {77FA996E-CFE6-4D28-B507-434321B24AE7}
 		{BE88B6DC-04EE-4CD9-B91A-FCF78D98AD56} = {B223D286-0BA2-4F81-B8CE-D2D011DF8E9D}
 		{5B6A0245-B056-4318-B32A-3D16CB887953} = {BE88B6DC-04EE-4CD9-B91A-FCF78D98AD56}
+		{60254F70-B203-43F1-BE06-842092FD236A} = {B223D286-0BA2-4F81-B8CE-D2D011DF8E9D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C77366EB-D75A-4356-9DB3-225C22FB45CD}
