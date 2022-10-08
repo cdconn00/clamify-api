@@ -69,7 +69,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/cdconn00/clamify-api:v${{ secrets.GITHUB_RUN_NUMBER }}
+            ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}
             ghcr.io/cdconn00/clamify-api:latest
 
   deploy:
@@ -90,8 +90,7 @@ jobs:
         with:
           namespace: 'default'
           manifests: kubernetes/deployment.yml
-          images: 'ghcr.io/cdconn00/clamify-api:v${{ secrets.GITHUB_RUN_NUMBER }}'
-          kubectl-version: 'latest'
+          images: 'ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}'
 
       - name: Verify deployment0a
         run: kubectl rollout status deployment/clamify-api
