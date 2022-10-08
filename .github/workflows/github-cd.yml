@@ -67,7 +67,7 @@ jobs:
 
   deploy:
     name: Deploy to Kubernetes Cluster
-    needs: push_to_registry
+    needs: push-to-registry
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
