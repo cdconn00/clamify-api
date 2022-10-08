@@ -77,20 +77,19 @@ jobs:
     needs: push_to_registry
     runs-on: ubuntu-latest
     steps:
-      - name: check out the repo
-        uses: actions/checkout@v2
-
-      - uses: azure/k8s-set-context@v2
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          context: 'default'
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - uses: Azure/k8s-deploy@v3.1
-        with:
-          namespace: 'default'
-          manifests: kubernetes/deployment.yml
-          images: 'ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}'
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 600
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.KUBE_CONTEXT }}
+
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $kubernetes/deployment.yml
 
       - name: Verify deployment0a
         run: kubectl rollout status deployment/clamify-api
