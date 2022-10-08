@@ -3,9 +3,6 @@ name: Publish Clamify API to Kubernetes
 on:
   release:
     types: [published]
-  push:
-    branches: ["CLAM-12_Setup_DO_Kubernetes_Deploy"]
-
 
 env:
   DOTNET_VERSION: '6.0.302' # The .NET SDK version to use
