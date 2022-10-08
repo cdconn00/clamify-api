@@ -88,7 +88,7 @@ jobs:
 
       - uses: Azure/k8s-deploy@v3.1
         with:
-          namespace: 'default'
+          namespace: ${{ secrets.KUBE_CONTEXT }}
           manifests: kubernetes/deployment.yml
           images: 'ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}'
 
