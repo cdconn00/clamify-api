@@ -92,4 +92,4 @@ jobs:
         run: kubectl apply -f kubernetes/deployment.yml
 
       - name: Verify deployment
-        run: kubectl rollout status deployment/clamify-api-deployment
+        run: kubectl rollout status deployment/clamify-api
