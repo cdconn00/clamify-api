@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Clamify API is a personal project of @cdconn00. This project serves as the backend for a personal finance application used primarily for budgeting and cost insights.
+The Clamify API is a personal project of @cdconn00. This project serves as the backend for a personal finance application used primarily for budgeting and cost insights
 
 ## Roadmap
 The API will progress in 2 week sprints to deliver incremental functionality.
