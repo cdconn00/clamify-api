@@ -22,7 +22,7 @@ public class ExamplesController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves and returns a list of examples.
+    /// Retrieves and returns the test variable.
     /// </summary>
     /// <returns>A list of examples.</returns>
     [HttpGet(nameof(Examples))]
