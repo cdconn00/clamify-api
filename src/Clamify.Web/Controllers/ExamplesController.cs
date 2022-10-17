@@ -28,7 +28,8 @@ public class ExamplesController : ControllerBase
     [HttpGet(nameof(Examples))]
     public ActionResult<string> Examples()
     {
-        return Environment.GetEnvironmentVariable("TEST_VAR") + "";
-        //return Ok(_exampleProvider.Get());
+        return Environment.GetEnvironmentVariable("TEST_VAR") + string.Empty;
+
+        // return Ok(_exampleProvider.Get());
     }
 }
