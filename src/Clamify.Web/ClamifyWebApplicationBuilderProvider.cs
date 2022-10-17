@@ -30,7 +30,7 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.AddDbContext<ClamifyContext>(o =>
         {
             o.UseNpgsql(
-                webApplicationBuilder.Configuration.GetConnectionString(webApplicationBuilder.Configuration.GetValue<string>("Database:ConnectionString")),
+                "test",
                 options => { options.EnableRetryOnFailure(); });
 
             if (webApplicationBuilder.Environment.IsDevelopment())
