@@ -10,6 +10,7 @@ namespace Clamify.IntegrationTests.ControllerTests;
 /// </summary>
 public class ExamplesControllerTests : StandardIntegrationTestBase
 {
+    /*
     /// <summary>
     /// Integration test method verifies GET requests to the Examples endpoint return data as expected.
     /// </summary>
@@ -34,6 +35,9 @@ public class ExamplesControllerTests : StandardIntegrationTestBase
 
         responseObject
             .Should()
-            .NotBeNull();
+            .NotBeNull()
+            .And
+            .HaveCount(3);
     }
+    */
 }
