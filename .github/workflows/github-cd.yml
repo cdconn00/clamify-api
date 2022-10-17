@@ -82,7 +82,7 @@ jobs:
 
       - name: Add ENV Variables
         run: |
-          kubectl set env deployment/clamify-api TEST_VAR=testvar
+          kubectl set env deployment/clamify-api TEST_VAR="${{ secrets.DB_CONNECT_STRING }}"
 
       - name: Apply the Deployment File
         run: kubectl apply -f kubernetes/deployment.yml
