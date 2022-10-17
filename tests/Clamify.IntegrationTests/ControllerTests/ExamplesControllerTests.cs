@@ -34,8 +34,6 @@ public class ExamplesControllerTests : StandardIntegrationTestBase
 
         responseObject
             .Should()
-            .NotBeNull()
-            .And
-            .HaveCount(3);
+            .NotBeNull();
     }
 }
