@@ -1,8 +1,9 @@
 name: Publish Clamify API to Kubernetes
 
+# Testing Changes
 on:
-  release:
-    types: [published]
+  push:
+    branches: ["*"]
 
 env:
   DOTNET_VERSION: '6.0.302' # The .NET SDK version to use
@@ -75,6 +76,10 @@ jobs:
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Add ENV Variables
+        run: |
+          kubectl set env deployment/clamify-api TEST_VAR=this is a test var alright
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.KUBE_CONTEXT }}
