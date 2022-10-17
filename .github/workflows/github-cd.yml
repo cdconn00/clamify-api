@@ -82,7 +82,7 @@ jobs:
 
       - name: Add ENV Variables
         run: |
-          kubectl set env deployment/clamify-api TEST_VAR=this is a test var alright
+          kubectl set env deployment/clamify-api TEST_VAR=testvar
 
       - name: Deploy to DigitalOcean Kubernetes
         run: kubectl apply -f kubernetes/deployment.yml
