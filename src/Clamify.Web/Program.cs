@@ -15,6 +15,8 @@ public class Program
             .Get(args)
             .Build();
 
+        app.UseDeveloperExceptionPage();
+
         app.UseSwagger();
         app.UseSwaggerUI();
 
