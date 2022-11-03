@@ -24,13 +24,25 @@ public static class ClamifyWebApplicationBuilderProvider
     public static WebApplicationBuilder Get(string[] strings)
     {
         var webApplicationBuilder = WebApplication.CreateBuilder(strings);
+        bool isDebug = webApplicationBuilder.Environment.IsDevelopment();
 
         webApplicationBuilder.Services.RegisterRequestHandlingDependencies(webApplicationBuilder.Configuration);
 
         webApplicationBuilder.Services.AddDbContext<ClamifyContext>(o =>
         {
+            string? connectionString;
+
+            if (isDebug)
+            {
+                connectionString = webApplicationBuilder.Configuration["DB_CONNECTION_STRING"];
+            }
+            else
+            {
+                connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? throw new InvalidOperationException("Database connection string not found.");
+            }
+
             o.UseNpgsql(
-                webApplicationBuilder.Configuration.GetConnectionString(webApplicationBuilder.Configuration.GetValue<string>("Database:ConnectionString")),
+                connectionString,
                 options => { options.EnableRetryOnFailure(); });
 
             if (webApplicationBuilder.Environment.IsDevelopment())
