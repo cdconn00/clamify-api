@@ -15,7 +15,7 @@ public class Example
     /// <summary>
     /// The primary key of the entity.
     /// </summary>
-    public int ExampleID { get; set; }
+    public int ExampleId { get; set; }
 
     /// <summary>
     /// Function configuring properties, keys, and relationships for Example.
@@ -24,9 +24,9 @@ public class Example
     public static void ConfigureModel(ModelBuilder modelBuilder) =>
         modelBuilder.Entity<Example>(entity =>
         {
-            entity.ToTable(TableName, "dbo");
+            entity.ToTable(TableName, "Test");
 
-            entity.HasKey(x => x.ExampleID);
-            entity.Property(x => x.ExampleID).IsRequired();
+            entity.HasKey(x => x.ExampleId);
+            entity.Property(x => x.ExampleId).IsRequired();
         });
 }
