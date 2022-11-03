@@ -5,24 +5,24 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Clamify.IntegrationTests.Migrations
 {
-    public partial class AddExampleTable : Migration
+    public partial class AddTestEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "dbo");
+                name: "Test");
 
             migrationBuilder.CreateTable(
                 name: "Example",
-                schema: "dbo",
+                schema: "Test",
                 columns: table => new
                 {
-                    ExampleID = table.Column<int>(type: "integer", nullable: false)
+                    ExampleId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Example", x => x.ExampleID);
+                    table.PrimaryKey("PK_Example", x => x.ExampleId);
                 });
         }
 
@@ -30,7 +30,7 @@ namespace Clamify.IntegrationTests.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Example",
-                schema: "dbo");
+                schema: "Test");
         }
     }
 }

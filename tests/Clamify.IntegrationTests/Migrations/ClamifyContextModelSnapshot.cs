@@ -16,22 +16,22 @@ namespace Clamify.IntegrationTests.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Clamify.Entities.Example", b =>
                 {
-                    b.Property<int>("ExampleID")
+                    b.Property<int>("ExampleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ExampleID"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ExampleId"));
 
-                    b.HasKey("ExampleID");
+                    b.HasKey("ExampleId");
 
-                    b.ToTable("Example", "dbo");
+                    b.ToTable("Example", "Test");
                 });
 #pragma warning restore 612, 618
         }
