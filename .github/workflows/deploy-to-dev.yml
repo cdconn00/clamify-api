@@ -1,8 +1,8 @@
-name: Publish Clamify API to Kubernetes
+name: Deploy Dev Clamify API to Kubernetes
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: ["develop"]
 
 env:
   DOTNET_VERSION: '6.0.302' # The .NET SDK version to use
@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: "develop"
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -30,6 +32,8 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: "develop"
       - name: Run Unit and Integration Tests
         run: dotnet test clamify-api.sln
 
@@ -40,9 +44,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        with:
+          ref: "develop"
 
       - name: Add Version to Dockerfile
-        run: sed -i 's/v0.0.0/v${{ github.run_number }}/g' Dockerfile
+        run: sed -i 's/v0.0.0/${{ github.sha }}/g' Dockerfile
 
       - name: Setup Docker Builder
         uses: docker/setup-buildx-action@v2
@@ -60,34 +66,24 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}
-            ghcr.io/cdconn00/clamify-api:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:develop
 
   deploy:
     name: Deploy to Kubernetes Cluster
     needs: push-to-registry
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
       - name: Install doctl 
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.KUBE_CONTEXT }}
-
-      - name: Add ENV Variables
-        run: |
-          kubectl set env deployment/clamify-api DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}"
+      - name: Login to Cluster
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 clamify-cluster
 
       - name: Apply the Deployment File
-        run: kubectl apply -f kubernetes/deployment.yml
-
-      - name: Complete Rollout Restart Deployment
-        run: kubectl rollout restart deployment clamify-api
+        run: kubectl set image deployment/dev-clamify-api dev-clamify-api=ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Verify Deployment Rollout
-        run: kubectl rollout status deployment/clamify-api
+        run: kubectl rollout status deployment/dev-clamify-api
