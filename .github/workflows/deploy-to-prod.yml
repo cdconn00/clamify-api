@@ -1,4 +1,4 @@
-name: Publish Clamify API to Kubernetes
+name: Publish Production Clamify API to Kubernetes
 
 on:
   release:
