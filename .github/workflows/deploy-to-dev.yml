@@ -2,7 +2,7 @@ name: Deploy Dev Clamify API to Kubernetes
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["CLAM_24-Update_CD_Scripts_To_Set_Image"]
 
 env:
   DOTNET_VERSION: '6.0.302' # The .NET SDK version to use
