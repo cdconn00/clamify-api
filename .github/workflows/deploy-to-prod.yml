@@ -1,6 +1,8 @@
 name: Publish Production Clamify API to Kubernetes
 
 on:
+  push:
+    branches: ["CLAM_24-Update_CD_Scripts_To_Set_Image"]
   release:
     types: [published]
 
