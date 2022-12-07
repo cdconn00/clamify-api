@@ -60,8 +60,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/cdconn00/clamify-api:v${{ github.run_number }}
-            ghcr.io/cdconn00/clamify-api:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/${{ github.repository }}:latest
 
   deploy:
     name: Deploy to Kubernetes Cluster
@@ -76,18 +76,11 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.KUBE_CONTEXT }}
-
-      - name: Add ENV Variables
-        run: |
-          kubectl set env deployment/clamify-api DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}"
+      - name: Login to Cluster
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 clamify-cluster
 
       - name: Apply the Deployment File
-        run: kubectl apply -f kubernetes/deployment.yml
-
-      - name: Complete Rollout Restart Deployment
-        run: kubectl rollout restart deployment clamify-api
+        run: kubectl set image deployment/clamify-api clamify-api=ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Verify Deployment Rollout
         run: kubectl rollout status deployment/clamify-api
