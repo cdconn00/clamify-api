@@ -35,14 +35,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{BE88
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5B6A0245-B056-4318-B32A-3D16CB887953}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\github-cd.yml = .github\workflows\github-cd.yml
+		.github\workflows\deploy-to-prod.yml = .github\workflows\deploy-to-prod.yml
 		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kubernetes", "kubernetes", "{60254F70-B203-43F1-BE06-842092FD236A}"
 	ProjectSection(SolutionItems) = preProject
-		kubernetes\deployment.yml = kubernetes\deployment.yml
-		kubernetes\service.yml = kubernetes\service.yml
+		kubernetes\dev-deployment.yml = kubernetes\dev-deployment.yml
+		kubernetes\dev-service.yml = kubernetes\dev-service.yml
+		kubernetes\prod-deployment.yml = kubernetes\prod-deployment.yml
+		kubernetes\prod-service.yml = kubernetes\prod-service.yml
 	EndProjectSection
 EndProject
 Global
