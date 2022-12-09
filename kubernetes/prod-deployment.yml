@@ -19,4 +19,4 @@ spec:
         image: ghcr.io/cdconn00/clamify-api:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 80

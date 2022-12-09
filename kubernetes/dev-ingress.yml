@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    name: dev-clamify-api-ingress
+  name: dev-clamify-api-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: dev.api.clamify.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: dev-clamify-api-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - <Load balancer external ip goes here>

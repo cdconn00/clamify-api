@@ -25,8 +25,10 @@ The API will progress in 2 week sprints to deliver incremental functionality.
 * The database container schema is based on migrations. If changes were made to the Clamify.Entities project you will need to add a new migration with the command found in: `BaseHelpers/ClamifyContextFactory`.
 
 ## Deployments
+Deployments are handled automatically with GitHub Actions.
 
-TBD after deployments are configured.
+- For development deployments, a push/merge into the `develop` branch will trigger a deployment to `dev.api.clamify.org`.
+- For production deployments, a new release will trigger a deployment to `api.clamify.org`.
 
 ## Code Standards
 
