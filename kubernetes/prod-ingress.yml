@@ -1,6 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    cert-manager.io/issuer: letsencrypt-prod
   labels:
     name: clamify-api-ingress
   name: clamify-api-ingress
@@ -18,6 +20,10 @@ spec:
               number: 80
         path: /
         pathType: Prefix
+  tls:
+  - hosts:
+    - api.clamify.org
+    secretName: api-tls-secret
 status:
   loadBalancer:
     ingress:
