@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Clamify.Entities.Context;
@@ -31,20 +30,7 @@ public class ClamifyContext : IdentityDbContext<ClamifyUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        ConfigureIdentityEntities(modelBuilder);
 
         Example.ConfigureModel(modelBuilder);
-    }
-
-    private void ConfigureIdentityEntities(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<IdentityUser<int>>().ToTable(ClamifyUser.TableName, ClamifyUser.SchemaName);
-        ClamifyUser.ConfigureModel(modelBuilder);
-        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRole", ClamifyUser.SchemaName);
-        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogin", ClamifyUser.SchemaName);
-        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaim", ClamifyUser.SchemaName);
-        modelBuilder.Entity<IdentityRole>().ToTable("Role", ClamifyUser.SchemaName);
-        modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaim", ClamifyUser.SchemaName);
-        modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserToken", ClamifyUser.SchemaName);
     }
 }
