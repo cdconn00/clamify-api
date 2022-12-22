@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Clamify.Entities.Context;
 
 /// <summary>
 /// Represents the session utilized to query the database entities utilized by Clamify.
 /// </summary>
-public class ClamifyContext : DbContext
+public class ClamifyContext : IdentityDbContext
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ClamifyContext"/> class.
@@ -28,6 +30,15 @@ public class ClamifyContext : DbContext
     /// <param name="modelBuilder">Object to construct models in the context.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityUser>().ToTable("MyUsers").Property(p => p.Id).HasColumnName("UserId");
+        // modelBuilder.Entity<ApplicationUser>().ToTable("MyUsers").Property(p => p.Id).HasColumnName("UserId");
+        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("MyUserRoles");
+        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("MyUserLogins");
+        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("MyUserClaims");
+        modelBuilder.Entity<IdentityRole>().ToTable("MyRoles");
+
         Example.ConfigureModel(modelBuilder);
     }
 }
