@@ -7,7 +7,7 @@ namespace Clamify.Entities.Context;
 /// <summary>
 /// Represents the session utilized to query the database entities utilized by Clamify.
 /// </summary>
-public class ClamifyContext : IdentityDbContext
+public class ClamifyContext : IdentityDbContext<ClamifyUser>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ClamifyContext"/> class.
@@ -31,14 +31,20 @@ public class ClamifyContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<IdentityUser>().ToTable("MyUsers").Property(p => p.Id).HasColumnName("UserId");
-        // modelBuilder.Entity<ApplicationUser>().ToTable("MyUsers").Property(p => p.Id).HasColumnName("UserId");
-        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("MyUserRoles");
-        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("MyUserLogins");
-        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("MyUserClaims");
-        modelBuilder.Entity<IdentityRole>().ToTable("MyRoles");
+        ConfigureIdentityEntities(modelBuilder);
 
         Example.ConfigureModel(modelBuilder);
+    }
+
+    private void ConfigureIdentityEntities(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<IdentityUser<int>>().ToTable(ClamifyUser.TableName, ClamifyUser.SchemaName);
+        ClamifyUser.ConfigureModel(modelBuilder);
+        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRole", ClamifyUser.SchemaName);
+        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogin", ClamifyUser.SchemaName);
+        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaim", ClamifyUser.SchemaName);
+        modelBuilder.Entity<IdentityRole>().ToTable("Role", ClamifyUser.SchemaName);
+        modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaim", ClamifyUser.SchemaName);
+        modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserToken", ClamifyUser.SchemaName);
     }
 }

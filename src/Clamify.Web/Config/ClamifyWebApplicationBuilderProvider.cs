@@ -9,7 +9,7 @@ using Serilog.Exceptions;
 using Serilog.Templates;
 using Serilog.Templates.Themes;
 
-namespace Clamify.Web;
+namespace Clamify.Web.Config;
 
 /// <summary>
 /// Static provider class handling builder configuration for the Web project.
@@ -46,6 +46,10 @@ public static class ClamifyWebApplicationBuilderProvider
                 o.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging();
             }
         });
+
+        webApplicationBuilder.Services.AddAuthentication();
+        webApplicationBuilder.Services.AddAuthorization();
+        webApplicationBuilder.Services.ConfigureIdentity();
 
         webApplicationBuilder.Services.AddCors(options =>
             options.AddPolicy(

@@ -1,4 +1,4 @@
-using Clamify.Web;
+using Clamify.Web.Config;
 
 /// <summary>
 /// Entry point class for application.
