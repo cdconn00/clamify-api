@@ -37,7 +37,7 @@ public class ClamifyContext : IdentityDbContext<ClamifyUser, IdentityRole<int>, 
         Example.ConfigureModel(modelBuilder);
     }
 
-    private void ConfigureIdentityModels(ModelBuilder modelBuilder)
+    private static void ConfigureIdentityModels(ModelBuilder modelBuilder)
     {
         string schema = ClamifyUser.SchemaName;
 
