@@ -6,7 +6,7 @@ namespace Clamify.Entities;
 /// <summary>
 /// User entity extending <see cref="IdentityUser"/> with additional properties.
 /// </summary>
-public class ClamifyUser : IdentityUser
+public class ClamifyUser : IdentityUser<int>
 {
     /// <summary>
     /// The schema name of the table in the DB.

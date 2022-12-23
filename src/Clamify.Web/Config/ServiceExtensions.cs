@@ -15,7 +15,7 @@ public static class ServiceExtensions
     /// <param name="services">The service object to use for configuration.</param>
     public static void ConfigureIdentity(this IServiceCollection services)
     {
-        IdentityBuilder builder = services.AddIdentityCore<ClamifyUser>(u => u.User.RequireUniqueEmail = true);
+        IdentityBuilder builder = services.AddIdentity<ClamifyUser, IdentityRole<int>>(u => u.User.RequireUniqueEmail = true);
 
         builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), services);
         builder.AddEntityFrameworkStores<ClamifyContext>().AddDefaultTokenProviders();
