@@ -30,7 +30,7 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.AddDbContext<ClamifyContext>(o =>
         {
             o.UseNpgsql(
-                GetDbConnectionString(webApplicationBuilder),
+                ServiceExtensions.GetSecret(webApplicationBuilder, "DB_CONNECTION_STRING"),
                 options => { options.EnableRetryOnFailure(); });
 
             if (webApplicationBuilder.Environment.IsDevelopment())
@@ -118,17 +118,5 @@ public static class ClamifyWebApplicationBuilderProvider
         });
 
         return webApplicationBuilder;
-    }
-
-    private static string GetDbConnectionString(WebApplicationBuilder webApplicationBuilder)
-    {
-        if (webApplicationBuilder.Environment.IsDevelopment())
-        {
-            return webApplicationBuilder.Configuration["DB_CONNECTION_STRING"];
-        }
-        else
-        {
-            return Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? throw new InvalidOperationException("Database connection string not found.");
-        }
     }
 }
