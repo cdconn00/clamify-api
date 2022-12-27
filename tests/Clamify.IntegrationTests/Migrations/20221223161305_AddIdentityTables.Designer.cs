@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Clamify.IntegrationTests.Migrations
 {
     [DbContext(typeof(ClamifyContext))]
-    [Migration("20221223151846_MigrationTest")]
-    partial class MigrationTest
+    [Migration("20221223161305_AddIdentityTables")]
+    partial class AddIdentityTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Clamify.IntegrationTests.Migrations
 {
-    public partial class MigrationTest : Migration
+    public partial class AddIdentityTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
