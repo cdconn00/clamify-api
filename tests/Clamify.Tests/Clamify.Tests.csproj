@@ -47,7 +47,7 @@
     <Folder Include="TestUtilities\" />
     <Folder Include="TestData\" />
     <Folder Include="RequestHandling\" />
-    <Folder Include="Web\" />
+    <Folder Include="Web\Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
