@@ -51,6 +51,10 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.AddAuthorization();
         webApplicationBuilder.Services.ConfigureIdentity();
 
+        webApplicationBuilder.Services.ConfigureJWT(
+            ServiceExtensions.GetSecret(webApplicationBuilder, "JWT_KEY"),
+            ServiceExtensions.GetSecret(webApplicationBuilder, "JWT_ISS"));
+
         webApplicationBuilder.Services.AddCors(options =>
             options.AddPolicy(
                 "AllowAllPolicy",
