@@ -9,8 +9,11 @@ namespace Clamify.IntegrationTests.BaseHelpers;
 /// </summary>
 public class ClamifyContextFactory : IDesignTimeDbContextFactory<ClamifyContext>
 {
-    // To a new migration (updates the schema used by the integration test) run the following command in powershell from project root:
-    // dotnet ef migrations add MigrationName --context ClamifyContext --startup-project ./tests/Clamify.IntegrationTests/Clamify.IntegrationTests.csproj --framework net6.0 --project ./tests/Clamify.IntegrationTests/Clamify.IntegrationTests.csproj
+    // To preform a new migration (updates the schema used by the integration test) run the following command in powershell from project root:
+    // dotnet ef migrations add AddIdentityTables --context ClamifyContext --startup-project ./tests/Clamify.IntegrationTests/Clamify.IntegrationTests.csproj --framework net6.0 --project ./tests/Clamify.IntegrationTests/Clamify.IntegrationTests.csproj
+
+    // To get the SQL change persisted by the migration run the following powershell command from the project root:
+    // dotnet ef migrations script --project ./tests/Clamify.IntegrationTests/Clamify.IntegrationTests.csproj
 
     /// <summary>
     /// Creates the database context based on provided arguments.
