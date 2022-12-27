@@ -69,23 +69,7 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.AddHealthChecks();
 
         webApplicationBuilder.Services.AddEndpointsApiExplorer();
-        webApplicationBuilder.Services.AddSwaggerGen(options =>
-        {
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Clamify API", Version = "v1" });
-
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                Description =
-                    "JWT Authorization header using the Bearer scheme: Example: \"Authorization: Bearer {token}\"",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-            });
-
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-        });
+        webApplicationBuilder.Services.ConfigureSwagger();
 
         webApplicationBuilder.Host.UseSerilog();
         webApplicationBuilder.Host.ConfigureLogging((hostContext, logBuilder) =>
