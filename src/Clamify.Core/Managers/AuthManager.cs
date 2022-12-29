@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Clamify.Core.Managers;
 
 /// <summary>
-/// Class to facilitate authentication and token issuance.
+/// Provides methods to facilitate authentication and token issuance.
 /// </summary>
 public class AuthManager : IAuthManager
 {
