@@ -52,6 +52,8 @@ public class ServiceExtensionTests
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
         _builder = WebApplication.CreateBuilder();
 
+        _builder.Configuration["secret"] = null;
+
         Action act = () =>
         {
             ServiceExtensions.GetSecret(_builder, "secret");
