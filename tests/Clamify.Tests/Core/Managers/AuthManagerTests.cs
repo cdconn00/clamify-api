@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Castle.Core.Resource;
 using Clamify.Core.Managers;
 using Clamify.Core.Managers.Interfaces;
 using Clamify.Core.Models;
@@ -98,30 +100,46 @@ public class AuthManagerTests
     /// Unit test verifies a valid user can have a token generated.
     /// </summary>
     [TestMethod]
-    public void IssueToken_GivenValidUser_GeneratesToken()
+    public void IssueToken_GivenValidUser_GeneratesCorrectToken()
     {
-        Environment.SetEnvironmentVariable("JWT_KEY", Guid.NewGuid().ToString());
-        Environment.SetEnvironmentVariable("JWT_ISS", "clamify.tests");
-        Environment.SetEnvironmentVariable("JWT_LIFETIME", "60");
+        IList<string> roles = new List<string>();
+        string jwtKey = Guid.NewGuid().ToString();
+        string jwtIss = "clamify.tests";
+        string lifetime = "60";
+
+        Environment.SetEnvironmentVariable("JWT_KEY", jwtKey);
+        Environment.SetEnvironmentVariable("JWT_ISS", jwtIss);
+        Environment.SetEnvironmentVariable("JWT_LIFETIME", lifetime);
 
         ClamifyUser u = new ()
         {
-            UserName = "Test",
+            UserName = "j.doe",
+            FirstName = "John",
+            LastName = "Doe",
+            Email = "name@test.com",
+            Id = 1,
         };
 
-        IList<Claim> claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.UserData, "test"),
-        };
-        IList<string> roles = new List<string>();
-
-        _userManager.Setup(m => m.GetClaimsAsync(It.IsAny<ClamifyUser>())).Returns(Task.FromResult(claims));
         _userManager.Setup(m => m.GetRolesAsync(It.IsAny<ClamifyUser>())).Returns(Task.FromResult(roles));
 
-        GetManager
-            .IssueToken(u)
-            .Result
+        // Get issued token and read it out.
+        string token = GetManager.IssueToken(u).Result;
+        var handler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = handler.ReadJwtToken(token);
+
+        DateTimeOffset issueTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(jwtSecurityToken.Claims.Where(x => x.Type == "nbf").First().Value));
+        DateTimeOffset expirationDate = issueTime.AddMinutes(Convert.ToInt32(lifetime));
+
+        jwtSecurityToken
+            .Claims
             .Should()
-            .NotBeNullOrEmpty();
+            .Satisfy(
+                c => c.Type == "first_name" && c.Value == u.FirstName,
+                c => c.Type == "last_name" && c.Value == u.LastName,
+                c => c.Type == "email" && c.Value == u.Email,
+                c => c.Type == "iss" && c.Value == jwtIss,
+                c => c.Type == "exp" && c.Value == expirationDate.ToUnixTimeSeconds().ToString(),
+                c => c.Type == "nbf" && c.Value == issueTime.ToUnixTimeSeconds().ToString(),
+                c => c.Type == "sub" && c.Value == u.Id.ToString());
     }
 }
