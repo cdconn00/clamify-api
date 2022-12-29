@@ -17,17 +17,18 @@
   <ItemGroup>
     <Folder Include="Clients\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Models\" />
     <Folder Include="Validators\Interfaces\" />
     <Folder Include="TypeValues\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
   </ItemGroup>
 
 </Project>

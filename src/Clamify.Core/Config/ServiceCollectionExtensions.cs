@@ -1,4 +1,6 @@
-﻿using Clamify.Core.Providers;
+﻿using Clamify.Core.Managers;
+using Clamify.Core.Managers.Interfaces;
+using Clamify.Core.Providers;
 using Clamify.Core.Providers.Interfaces;
 using Clamify.Core.Writers;
 using Clamify.Core.Writers.Interfaces;
@@ -25,6 +27,7 @@ public static class ServiceCollectionExtensions
         services.RegisterCaching();
         services.RegisterProviders();
         services.RegisterWriters();
+        services.RegisterManagers();
     }
 
     private static void RegisterCaching(this IServiceCollection services)
@@ -45,5 +48,10 @@ public static class ServiceCollectionExtensions
     private static void RegisterWriters(this IServiceCollection services)
     {
         services.AddTransient<IExampleWriter, ExampleWriter>();
+    }
+
+    private static void RegisterManagers(this IServiceCollection services)
+    {
+        services.AddScoped<IAuthManager, AuthManager>();
     }
 }

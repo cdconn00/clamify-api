@@ -11,14 +11,17 @@ namespace Clamify.Web.Controllers;
 public class ExamplesController : ControllerBase
 {
     private readonly IExampleProvider _exampleProvider;
+    private readonly ILogger<ExamplesController> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExamplesController"/> class.
     /// </summary>
     /// <param name="exampleProvider">Provider to get examples from the DB.</param>
-    public ExamplesController(IExampleProvider exampleProvider)
+    /// <param name="logger">Logger to log information.</param>
+    public ExamplesController(IExampleProvider exampleProvider, ILogger<ExamplesController> logger)
     {
         _exampleProvider = exampleProvider;
+        _logger = logger;
     }
 
     /// <summary>
@@ -28,6 +31,7 @@ public class ExamplesController : ControllerBase
     [HttpGet(nameof(Examples))]
     public ActionResult Examples()
     {
+        _logger.LogInformation("Getting examples...");
         return Ok(_exampleProvider.Get());
     }
 }

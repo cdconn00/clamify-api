@@ -9,7 +9,7 @@ using Serilog.Exceptions;
 using Serilog.Templates;
 using Serilog.Templates.Themes;
 
-namespace Clamify.Web;
+namespace Clamify.Web.Config;
 
 /// <summary>
 /// Static provider class handling builder configuration for the Web project.
@@ -30,7 +30,7 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.AddDbContext<ClamifyContext>(o =>
         {
             o.UseNpgsql(
-                GetDbConnectionString(webApplicationBuilder),
+                ServiceExtensions.GetSecret(webApplicationBuilder, "DB_CONNECTION_STRING"),
                 options => { options.EnableRetryOnFailure(); });
 
             if (webApplicationBuilder.Environment.IsDevelopment())
@@ -47,6 +47,14 @@ public static class ClamifyWebApplicationBuilderProvider
             }
         });
 
+        webApplicationBuilder.Services.AddAuthentication();
+        webApplicationBuilder.Services.AddAuthorization();
+        webApplicationBuilder.Services.ConfigureIdentity();
+
+        webApplicationBuilder.Services.ConfigureJWT(
+            ServiceExtensions.GetSecret(webApplicationBuilder, "JWT_KEY"),
+            ServiceExtensions.GetSecret(webApplicationBuilder, "JWT_ISS"));
+
         webApplicationBuilder.Services.AddCors(options =>
             options.AddPolicy(
                 "AllowAllPolicy",
@@ -61,25 +69,10 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.AddHealthChecks();
 
         webApplicationBuilder.Services.AddEndpointsApiExplorer();
-        webApplicationBuilder.Services.AddSwaggerGen(options =>
-        {
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Clamify API", Version = "v1" });
-
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                Description =
-                    "JWT Authorization header using the Bearer scheme: Example: \"Authorization: Bearer {token}\"",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-            });
-
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-        });
+        webApplicationBuilder.Services.ConfigureSwagger();
 
         webApplicationBuilder.Host.UseSerilog();
+
         webApplicationBuilder.Host.ConfigureLogging((hostContext, logBuilder) =>
         {
             Log.Logger = new LoggerConfiguration()
@@ -108,23 +101,16 @@ public static class ClamifyWebApplicationBuilderProvider
                         nameResolver: null,
                         theme: TemplateTheme.Literate,
                         applyThemeWhenOutputIsRedirected: false)))
+
+                .WriteTo.PostgreSQL(
+                    ServiceExtensions.GetSecret(webApplicationBuilder, "DB_CONNECTION_STRING"),
+                    tableName: "SystemLog",
+                    needAutoCreateTable: true)
                 .CreateLogger();
 
             logBuilder.AddSerilog(logger: Log.Logger, dispose: true);
         });
 
         return webApplicationBuilder;
-    }
-
-    private static string GetDbConnectionString(WebApplicationBuilder webApplicationBuilder)
-    {
-        if (webApplicationBuilder.Environment.IsDevelopment())
-        {
-            return webApplicationBuilder.Configuration["DB_CONNECTION_STRING"];
-        }
-        else
-        {
-            return Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ?? throw new InvalidOperationException("Database connection string not found.");
-        }
     }
 }
