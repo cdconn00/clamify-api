@@ -72,6 +72,7 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.ConfigureSwagger();
 
         webApplicationBuilder.Host.UseSerilog();
+
         webApplicationBuilder.Host.ConfigureLogging((hostContext, logBuilder) =>
         {
             Log.Logger = new LoggerConfiguration()
@@ -100,6 +101,11 @@ public static class ClamifyWebApplicationBuilderProvider
                         nameResolver: null,
                         theme: TemplateTheme.Literate,
                         applyThemeWhenOutputIsRedirected: false)))
+
+                .WriteTo.PostgreSQL(
+                    ServiceExtensions.GetSecret(webApplicationBuilder, "DB_CONNECTION_STRING"),
+                    tableName: "SystemLog",
+                    needAutoCreateTable: true)
                 .CreateLogger();
 
             logBuilder.AddSerilog(logger: Log.Logger, dispose: true);
