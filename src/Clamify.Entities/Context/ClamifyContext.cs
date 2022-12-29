@@ -24,6 +24,11 @@ public class ClamifyContext : IdentityDbContext<ClamifyUser, IdentityRole<int>, 
     public virtual DbSet<Example> Examples { get; set; }
 
     /// <summary>
+    /// FeatureFlag Dbset.
+    /// </summary>
+    public virtual DbSet<FeatureFlag> FeatureFlags { get; set; }
+
+    /// <summary>
     /// Called after the derived context is intialized, allows configuration of models before the models are locked down and
     /// the context is initialized.
     /// </summary>
@@ -35,6 +40,7 @@ public class ClamifyContext : IdentityDbContext<ClamifyUser, IdentityRole<int>, 
         ConfigureIdentityModels(modelBuilder);
 
         Example.ConfigureModel(modelBuilder);
+        FeatureFlag.ConfigureModel(modelBuilder);
     }
 
     private static void ConfigureIdentityModels(ModelBuilder modelBuilder)
