@@ -3,6 +3,7 @@ using Clamify.Core.Providers.Interfaces;
 using Clamify.Entities;
 using Clamify.Entities.Context;
 using Clamify.Tests.Mocks;
+using Clamify.Web.Config;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -43,7 +44,13 @@ public class FeatureFlagProviderTests
     [TestMethod]
     public void IsFeatureEnabled_FeatureEnabled_ReturnsTrue()
     {
-        
+        _context.FeatureFlags.Add(new FeatureFlag
+        {
+            FeatureName = "Test",
+            IsEnabled = true,
+        });
+
+        GetProvider.IsFeatureEnabled("Test").Should().BeTrue();
     }
 
     /// <summary>
@@ -52,7 +59,13 @@ public class FeatureFlagProviderTests
     [TestMethod]
     public void IsFeatureEnabled_FeatureDisabled_ReturnsFalse()
     {
+        _context.FeatureFlags.Add(new FeatureFlag
+        {
+            FeatureName = "Test",
+            IsEnabled = false,
+        });
 
+        GetProvider.IsFeatureEnabled("Test").Should().BeFalse();
     }
 
     /// <summary>
@@ -61,6 +74,11 @@ public class FeatureFlagProviderTests
     [TestMethod]
     public void IsFeatureEnabled_FeatureDNE_ThrowsException()
     {
+        Action act = () =>
+        {
+            GetProvider.IsFeatureEnabled("Test");
+        };
 
+        act.Should().Throw<InvalidOperationException>();
     }
 }
