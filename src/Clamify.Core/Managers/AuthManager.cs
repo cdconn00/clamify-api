@@ -76,7 +76,10 @@ public class AuthManager : IAuthManager
     {
         List<Claim> claims = new ()
         {
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim("first_name", user.FirstName),
+            new Claim("last_name", user.LastName),
+            new Claim("email", user.Email),
+            new Claim("sub", user.Id.ToString()),
         };
 
         var roles = await _userManager.GetRolesAsync(user);
