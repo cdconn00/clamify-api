@@ -3,9 +3,11 @@ using Clamify.Core.Providers.Interfaces;
 using Clamify.Entities;
 using Clamify.Entities.Context;
 using Clamify.Tests.Mocks;
-using Clamify.Web.Config;
+using Clamify.Tests.TestUtilities;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Clamify.Tests.Core.Providers;
 
@@ -16,9 +18,10 @@ namespace Clamify.Tests.Core.Providers;
 public class FeatureFlagProviderTests
 {
     private ClamifyContext _context;
+    private ILogger<FeatureFlagProvider> _logger;
 
     private IFeatureFlagProvider GetProvider =>
-        new FeatureFlagProvider(_context);
+        new FeatureFlagProvider(_context, _logger);
 
     /// <summary>
     /// Initialize the tests with a mock context.
@@ -27,6 +30,7 @@ public class FeatureFlagProviderTests
     public void Initialize()
     {
         _context = MockClamifyContextFactory.GenerateMockContext();
+        _logger = Mock.Of<ILogger<FeatureFlagProvider>>();
     }
 
     /// <summary>
@@ -50,7 +54,9 @@ public class FeatureFlagProviderTests
             IsEnabled = true,
         });
 
-        GetProvider.IsFeatureEnabled("Test").Should().BeTrue();
+        _context.SaveChanges();
+
+        GetProvider.IsFeatureEnabled("Test").Result.Should().BeTrue();
     }
 
     /// <summary>
@@ -65,7 +71,9 @@ public class FeatureFlagProviderTests
             IsEnabled = false,
         });
 
-        GetProvider.IsFeatureEnabled("Test").Should().BeFalse();
+        _context.SaveChanges();
+
+        GetProvider.IsFeatureEnabled("Test").Result.Should().BeFalse();
     }
 
     /// <summary>
@@ -76,9 +84,10 @@ public class FeatureFlagProviderTests
     {
         Action act = () =>
         {
-            GetProvider.IsFeatureEnabled("Test");
+            var res = GetProvider.IsFeatureEnabled("Test").Result;
         };
 
         act.Should().Throw<InvalidOperationException>();
+        LoggerCallHelpers.VerifyErrorCall(_logger);
     }
 }

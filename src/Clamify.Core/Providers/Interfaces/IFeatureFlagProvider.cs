@@ -10,5 +10,5 @@ public interface IFeatureFlagProvider
     /// </summary>
     /// <param name="featureName">The feature to check.</param>
     /// <returns>If the feature is enabled or not.</returns>
-    public bool IsFeatureEnabled(string featureName);
+    public Task<bool> IsFeatureEnabled(string featureName);
 }
