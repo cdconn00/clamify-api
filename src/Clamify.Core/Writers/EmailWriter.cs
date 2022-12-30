@@ -10,25 +10,28 @@ namespace Clamify.Core.Writers;
 public class EmailWriter : IMessageWriter
 {
     private readonly ILogger<EmailWriter> _logger;
-    private readonly AmazonSimpleEmailServiceV2Client _sesClient;
+    private readonly IAmazonSimpleEmailServiceV2 _sesClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EmailWriter"/> class.
     /// </summary>
     /// <param name="logger">Logger object to record results/errors.</param>
     /// <param name="sesClient">The email client to send the email.</param>
-    public EmailWriter(ILogger<EmailWriter> logger, AmazonSimpleEmailServiceV2Client sesClient)
+    public EmailWriter(ILogger<EmailWriter> logger, IAmazonSimpleEmailServiceV2 sesClient)
     {
         _logger = logger;
         _sesClient = sesClient;
     }
 
     /// <inheritdoc/>
-    public Task SendMessage(
+    public async Task SendMessage(
         string messageDestination,
         string userFirstName,
         string openingMessage,
         string buttonText = "Visit Clamify",
         string buttonLink = "",
-        string closingText = "") => throw new NotImplementedException();
+        string closingText = "")
+    {
+        await Task.CompletedTask;
+    }
 }

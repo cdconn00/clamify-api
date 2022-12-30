@@ -57,6 +57,6 @@ public static class ServiceCollectionExtensions
     private static void RegisterManagers(this IServiceCollection services)
     {
         services.AddScoped<IAuthManager, AuthManager>();
-        services.AddSingleton(new AmazonSimpleEmailServiceV2Client(RegionEndpoint.USEast1));
+        services.AddTransient<IAmazonSimpleEmailServiceV2, AmazonSimpleEmailServiceV2Client>();
     }
 }

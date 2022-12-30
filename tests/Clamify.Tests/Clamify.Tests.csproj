@@ -21,6 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleEmailV2" Version="3.7.101.38" />
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="JunitXml.TestLogger" Version="3.0.114" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9" />
