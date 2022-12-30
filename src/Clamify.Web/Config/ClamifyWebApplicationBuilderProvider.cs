@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Clamify.Core.Providers.Interfaces;
 using Clamify.Entities.Context;
 using Clamify.RequestHandling.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -24,13 +25,15 @@ public static class ClamifyWebApplicationBuilderProvider
     public static WebApplicationBuilder Get(string[] strings)
     {
         var webApplicationBuilder = WebApplication.CreateBuilder(strings);
-
         webApplicationBuilder.Services.RegisterRequestHandlingDependencies(webApplicationBuilder.Configuration);
+
+        ISecretProvider secretProvider = webApplicationBuilder.Services.BuildServiceProvider().GetService<ISecretProvider>()
+            ?? throw new InvalidOperationException("ISecretProvider was not registered");
 
         webApplicationBuilder.Services.AddDbContext<ClamifyContext>(o =>
         {
             o.UseNpgsql(
-                ServiceExtensions.GetSecret(webApplicationBuilder, "DB_CONNECTION_STRING"),
+                secretProvider.GetSecret("DB_CONNECTION_STRING"),
                 options => { options.EnableRetryOnFailure(); });
 
             if (webApplicationBuilder.Environment.IsDevelopment())
@@ -52,8 +55,8 @@ public static class ClamifyWebApplicationBuilderProvider
         webApplicationBuilder.Services.ConfigureIdentity();
 
         webApplicationBuilder.Services.ConfigureJWT(
-            ServiceExtensions.GetSecret(webApplicationBuilder, "JWT_KEY"),
-            ServiceExtensions.GetSecret(webApplicationBuilder, "JWT_ISS"));
+            secretProvider.GetSecret("JWT_KEY"),
+            secretProvider.GetSecret("JWT_ISS"));
 
         webApplicationBuilder.Services.AddCors(options =>
             options.AddPolicy(
@@ -103,7 +106,7 @@ public static class ClamifyWebApplicationBuilderProvider
                         applyThemeWhenOutputIsRedirected: false)))
 
                 .WriteTo.PostgreSQL(
-                    ServiceExtensions.GetSecret(webApplicationBuilder, "DB_CONNECTION_STRING"),
+                    secretProvider.GetSecret("DB_CONNECTION_STRING"),
                     tableName: "SystemLog",
                     needAutoCreateTable: true)
                 .CreateLogger();

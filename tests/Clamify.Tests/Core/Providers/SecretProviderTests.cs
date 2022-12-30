@@ -1,17 +1,31 @@
-﻿using Clamify.Web.Config;
+﻿using Clamify.Core.Providers;
+using Clamify.Core.Providers.Interfaces;
 using FluentAssertions;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
-namespace Clamify.Tests.Web.Config;
+namespace Clamify.Tests.Core.Providers;
 
 /// <summary>
-/// Unit test class verifying <see cref="ServiceExtensions"/> methods.
+/// Unit test class verifying <see cref="SecretProvider"/> methods.
 /// </summary>
 [TestClass]
-public class ServiceExtensionTests
+public class SecretProviderTests
 {
-    private WebApplicationBuilder _builder;
+    private IConfiguration _configuration;
+
+    private ISecretProvider GetProvider =>
+        new SecretProvider(_configuration);
+
+    /// <summary>
+    /// Initialize the tests with a mock objects.
+    /// </summary>
+    [TestInitialize]
+    public void Initialize()
+    {
+        _configuration = Mock.Of<IConfiguration>();
+    }
 
     /// <summary>
     /// Unit test verifies a development value is used in development.
@@ -21,11 +35,15 @@ public class ServiceExtensionTests
     {
         string expectedValue = "development";
 
-        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
-        _builder = WebApplication.CreateBuilder();
-        AddSecretValues();
+        var inMemorySettings = new Dictionary<string, string> { { "secret", expectedValue }, };
 
-        ServiceExtensions.GetSecret(_builder, "secret").Should().BeEquivalentTo(expectedValue);
+        _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(inMemorySettings)
+            .Build();
+
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+
+        GetProvider.GetSecret("secret").Should().BeEquivalentTo(expectedValue);
     }
 
     /// <summary>
@@ -37,10 +55,9 @@ public class ServiceExtensionTests
         string expectedValue = "production";
 
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
-        _builder = WebApplication.CreateBuilder();
-        AddSecretValues();
+        Environment.SetEnvironmentVariable("secret", "production");
 
-        ServiceExtensions.GetSecret(_builder, "secret").Should().BeEquivalentTo(expectedValue);
+        GetProvider.GetSecret("secret").Should().BeEquivalentTo(expectedValue);
     }
 
     /// <summary>
@@ -50,13 +67,10 @@ public class ServiceExtensionTests
     public void GetSecret_IsDevelopmentAndNoValue_ThrowsException()
     {
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
-        _builder = WebApplication.CreateBuilder();
-
-        _builder.Configuration["secret"] = null;
 
         Action act = () =>
         {
-            ServiceExtensions.GetSecret(_builder, "secret");
+            GetProvider.GetSecret("secret");
         };
 
         act.Should().Throw<InvalidOperationException>();
@@ -69,22 +83,15 @@ public class ServiceExtensionTests
     public void GetSecret_IsProductionAndNoValue_ThrowsException()
     {
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
-        _builder = WebApplication.CreateBuilder();
 
         // Make sure the environment variable is null
         Environment.SetEnvironmentVariable("secret", null);
 
         Action act = () =>
         {
-            ServiceExtensions.GetSecret(_builder, "secret");
+            GetProvider.GetSecret("secret");
         };
 
         act.Should().Throw<InvalidOperationException>();
-    }
-
-    private void AddSecretValues()
-    {
-        _builder.Configuration["secret"] = "development";
-        Environment.SetEnvironmentVariable("secret", "production");
     }
 }

@@ -95,22 +95,4 @@ public static class ServiceExtensions
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
     }
-
-    /// <summary>
-    /// Retrieves a secret from the local development or server environment depending on where the application is running.
-    /// </summary>
-    /// <param name="webApplicationBuilder">The builder used to determine the environment.</param>
-    /// <param name="secretName">The name of the secret to retrieve.</param>
-    /// <returns>The value of the secret requested.</returns>
-    public static string GetSecret(WebApplicationBuilder webApplicationBuilder, string secretName)
-    {
-        if (webApplicationBuilder.Environment.IsDevelopment())
-        {
-            return webApplicationBuilder.Configuration[secretName] ?? throw new InvalidOperationException($"{secretName} not found.");
-        }
-        else
-        {
-            return Environment.GetEnvironmentVariable(secretName) ?? throw new InvalidOperationException($"{secretName} not found.");
-        }
-    }
 }

@@ -46,6 +46,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<IExampleProvider, ExampleProvider>();
         services.AddTransient<IFeatureFlagProvider, FeatureFlagProvider>();
+        services.AddTransient<ISecretProvider, SecretProvider>();
     }
 
     private static void RegisterWriters(this IServiceCollection services)
