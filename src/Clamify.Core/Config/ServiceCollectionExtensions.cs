@@ -57,7 +57,15 @@ public static class ServiceCollectionExtensions
 
     private static void RegisterManagers(this IServiceCollection services)
     {
+        ISecretProvider secretProvider = services.BuildServiceProvider().GetService<ISecretProvider>()
+            ?? throw new InvalidOperationException("ISecretProvider was not registered");
+
         services.AddScoped<IAuthManager, AuthManager>();
-        services.AddTransient<IAmazonSimpleEmailServiceV2, AmazonSimpleEmailServiceV2Client>();
+
+        // Needs ISecretProvider to be registered first
+        services.AddScoped<IAmazonSimpleEmailServiceV2>(x =>
+            new AmazonSimpleEmailServiceV2Client(
+                secretProvider.GetSecret("AWS_ACCESS_KEY_ID"),
+                secretProvider.GetSecret("AWS_SECRET_ACCESS_KEY_ID")));
     }
 }
