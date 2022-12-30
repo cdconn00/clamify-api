@@ -37,7 +37,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IMemoryCache, MemoryCache>(_ => new MemoryCache(new MemoryCacheOptions()));
         services.AddSingleton(_ => new MemoryCacheEntryOptions
         {
-            // Default cache expiration time of 12 hours, since user name and part number data is unlikely to change very often
+            // Default cache expiration time of 12 hours
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(720),
         });
     }
@@ -65,7 +65,8 @@ public static class ServiceCollectionExtensions
         // Needs ISecretProvider to be registered first
         services.AddScoped<IAmazonSimpleEmailServiceV2>(x =>
             new AmazonSimpleEmailServiceV2Client(
-                secretProvider.GetSecret("AWS_ACCESS_KEY_ID"),
-                secretProvider.GetSecret("AWS_SECRET_ACCESS_KEY_ID")));
+                secretProvider.GetSecret("AWS_ACCESS_KEY"),
+                secretProvider.GetSecret("AWS_SECRET_ACCESS_KEY"),
+                RegionEndpoint.USEast1));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Amazon.SimpleEmailV2;
+using Clamify.Core.Providers.Interfaces;
 using Clamify.Core.Writers;
 using Clamify.Core.Writers.Interfaces;
 using Clamify.Tests.TestUtilities;
@@ -17,9 +18,10 @@ public class EmailWriterTests
 {
     private ILogger<EmailWriter> _logger;
     private IAmazonSimpleEmailServiceV2 _sesClient;
+    private ISecretProvider _secretProvider;
 
     private IMessageWriter GetWriter =>
-        new EmailWriter(_logger, _sesClient);
+        new EmailWriter(_logger, _sesClient, _secretProvider);
 
     /// <summary>
     /// Initialize the tests with a mock context.
@@ -29,6 +31,7 @@ public class EmailWriterTests
     {
         _logger = Mock.Of<ILogger<EmailWriter>>();
         _sesClient = Mock.Of<IAmazonSimpleEmailServiceV2>();
+        _secretProvider = Mock.Of<ISecretProvider>();
     }
 
     /// <summary>
