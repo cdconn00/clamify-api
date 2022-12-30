@@ -37,12 +37,13 @@ public class EmailWriterTests
     public void SendMessage_GivenFullBody_SendsEmailSuccessfully()
     {
         string email = "validEmail@clamify.org";
+        string subject = "Cool Subject";
         string fName = "Test";
         string openingMessage = "Opening Message";
 
         Action act = () =>
         {
-            GetWriter.SendMessage(email, fName, openingMessage).Wait();
+            GetWriter.SendMessage(email, subject, fName, openingMessage).Wait();
         };
 
         act.Should().NotThrow();
@@ -55,12 +56,32 @@ public class EmailWriterTests
     public void SendMessage_GivenEmptyEmail_ThrowsException()
     {
         string email = string.Empty;
+        string subject = "Cool Subject";
         string fName = "Test";
         string openingMessage = "Opening Message";
 
         Action act = () =>
         {
-            GetWriter.SendMessage(email, fName, openingMessage).Wait();
+            GetWriter.SendMessage(email, subject, fName, openingMessage).Wait();
+        };
+
+        act.Should().Throw<ArgumentException>();
+    }
+
+    /// <summary>
+    /// Unit test method verifies empty subject params result in an exception being thrown.
+    /// </summary>
+    [TestMethod]
+    public void SendMessage_GivenEmptySubject_ThrowsException()
+    {
+        string email = "test";
+        string subject = string.Empty;
+        string fName = "Test";
+        string openingMessage = "Opening Message";
+
+        Action act = () =>
+        {
+            GetWriter.SendMessage(email, subject, fName, openingMessage).Wait();
         };
 
         act.Should().Throw<ArgumentException>();
@@ -73,12 +94,13 @@ public class EmailWriterTests
     public void SendMessage_GivenEmptyName_ThrowsException()
     {
         string email = "validEmail@clamify.org";
+        string subject = "Cool Subject";
         string fName = string.Empty;
         string openingMessage = "Opening Message";
 
         Action act = () =>
         {
-            GetWriter.SendMessage(email, fName, openingMessage).Wait();
+            GetWriter.SendMessage(email, subject, fName, openingMessage).Wait();
         };
 
         act.Should().Throw<ArgumentException>();
@@ -91,14 +113,38 @@ public class EmailWriterTests
     public void SendMessage_GivenEmptyMessage_ThrowsException()
     {
         string email = "validEmail@clamify.org";
+        string subject = "Cool Subject";
         string fName = "Name";
         string openingMessage = string.Empty;
 
         Action act = () =>
         {
-            GetWriter.SendMessage(email, fName, openingMessage).Wait();
+            GetWriter.SendMessage(email, subject, fName, openingMessage).Wait();
         };
 
         act.Should().Throw<ArgumentException>();
+    }
+
+    /// <summary>
+    /// Unit test method verifies no html file results in an exception being thrown.
+    /// </summary>
+    [TestMethod]
+    public void SendMessage_GivenNoHtmlFile_ThrowsException()
+    {
+        string email = "validEmail@clamify.org";
+        string subject = "Cool Subject";
+        string fName = "Name";
+        string openingMessage = "test";
+
+        File.Move("Files/email_template.html", "Files/email_template-break.html");
+
+        Action act = () =>
+        {
+            GetWriter.SendMessage(email, subject, fName, openingMessage).Wait();
+        };
+
+        act.Should().Throw<Exception>();
+
+        File.Move("Files/email_template-break.html", "Files/email_template.html");
     }
 }

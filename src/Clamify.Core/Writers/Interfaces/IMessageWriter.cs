@@ -9,6 +9,7 @@ public interface IMessageWriter
     /// Sends a created message to a user.
     /// </summary>
     /// <param name="messageDestination">Specifies the address the message will be sent to / usually a phone number or email.</param>
+    /// <param name="subject">The subject of the message.</param>
     /// <param name="userFirstName">The first name of the user the message is sent to.</param>
     /// <param name="openingMessage">The opening text of the message.</param>
     /// <param name="buttonText">The label for the button. If left empty it will default to 'Visit Clamify'.</param>
@@ -17,6 +18,7 @@ public interface IMessageWriter
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     public Task SendMessage(
         string messageDestination,
+        string subject,
         string userFirstName,
         string openingMessage,
         string buttonText = "Visit Clamify",
