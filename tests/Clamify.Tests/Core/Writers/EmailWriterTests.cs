@@ -1,6 +1,7 @@
 ﻿using Amazon.SimpleEmailV2;
 using Clamify.Core.Writers;
 using Clamify.Core.Writers.Interfaces;
+using Clamify.Tests.TestUtilities;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -66,6 +67,7 @@ public class EmailWriterTests
         };
 
         act.Should().Throw<ArgumentException>();
+        LoggerCallHelpers.VerifyErrorCall(_logger);
     }
 
     /// <summary>
@@ -85,6 +87,7 @@ public class EmailWriterTests
         };
 
         act.Should().Throw<ArgumentException>();
+        LoggerCallHelpers.VerifyErrorCall(_logger);
     }
 
     /// <summary>
@@ -104,6 +107,7 @@ public class EmailWriterTests
         };
 
         act.Should().Throw<ArgumentException>();
+        LoggerCallHelpers.VerifyErrorCall(_logger);
     }
 
     /// <summary>
@@ -123,6 +127,7 @@ public class EmailWriterTests
         };
 
         act.Should().Throw<ArgumentException>();
+        LoggerCallHelpers.VerifyErrorCall(_logger);
     }
 
     /// <summary>
