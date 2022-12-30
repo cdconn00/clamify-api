@@ -1,4 +1,6 @@
-﻿using Clamify.Core.Managers;
+﻿using Amazon;
+using Amazon.SimpleEmailV2;
+using Clamify.Core.Managers;
 using Clamify.Core.Managers.Interfaces;
 using Clamify.Core.Providers;
 using Clamify.Core.Providers.Interfaces;
@@ -43,15 +45,18 @@ public static class ServiceCollectionExtensions
     private static void RegisterProviders(this IServiceCollection services)
     {
         services.AddTransient<IExampleProvider, ExampleProvider>();
+        services.AddTransient<IFeatureFlagProvider, FeatureFlagProvider>();
     }
 
     private static void RegisterWriters(this IServiceCollection services)
     {
         services.AddTransient<IExampleWriter, ExampleWriter>();
+        services.AddTransient<IMessageWriter, EmailWriter>();
     }
 
     private static void RegisterManagers(this IServiceCollection services)
     {
         services.AddScoped<IAuthManager, AuthManager>();
+        services.AddSingleton(new AmazonSimpleEmailServiceV2Client(RegionEndpoint.USEast1));
     }
 }
