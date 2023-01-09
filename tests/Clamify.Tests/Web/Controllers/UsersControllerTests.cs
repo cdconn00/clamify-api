@@ -35,4 +35,58 @@ public class UsersControllerTests
         _featureFlagProvider = Mock.Of<IFeatureFlagProvider>();
         _messageWriter = Mock.Of<IMessageWriter>();
     }
+
+    /// <summary>
+    /// Unit test verifies a false feature flag does not allow registrations.
+    /// </summary>
+    [TestMethod]
+    public void Create_FeatureFlagFalse_ReturnsForbidden()
+    {
+
+    }
+
+    /// <summary>
+    /// Unit test verifies a duplicate user cannot be created.
+    /// </summary>
+    [TestMethod]
+    public void Create_UserAlreadyExists_ReturnsBadRequest()
+    {
+
+    }
+
+    /// <summary>
+    /// Unit test verifies a <see cref="IFeatureFlagProvider"/> exceptions return a 500.
+    /// </summary>
+    [TestMethod]
+    public void Create_ErrorInFeatureFlagProvider_ReturnsInternalServerError()
+    {
+
+    }
+
+    /// <summary>
+    /// Unit test verifies a <see cref="IMessageWriter"/> exceptions return a 500.
+    /// </summary>
+    [TestMethod]
+    public void Create_ErrorInEmailWriter_ReturnsInternalServerError()
+    {
+
+    }
+
+    /// <summary>
+    /// Unit test verifies a <see cref="UserManager{TUser}"/> exceptions return a 500.
+    /// </summary>
+    [TestMethod]
+    public void Create_ErrorInUserManager_ReturnsInternalServerError()
+    {
+
+    }
+
+    /// <summary>
+    /// Unit test verifies a valid request returns created.
+    /// </summary>
+    [TestMethod]
+    public void Create_ValidRequest_ReturnsCreated()
+    {
+
+    }
 }
