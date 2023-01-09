@@ -3,6 +3,7 @@ using Clamify.Core.Managers.Interfaces;
 using Clamify.Core.Providers.Interfaces;
 using Clamify.Core.Writers.Interfaces;
 using Clamify.Entities;
+using Clamify.RequestHandling.Models.Requests.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,13 +41,14 @@ public class UsersController : Controller
     /// <summary>
     /// Registers a new user for the service and sends them a email verification code.
     /// </summary>
+    /// <param name="request">The body of the create request.</param>
     /// <returns>The result of the creation request.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Create()
+    public async Task<ActionResult> Create([FromBody] CreateRequest request)
     {
         throw new NotImplementedException();
     }

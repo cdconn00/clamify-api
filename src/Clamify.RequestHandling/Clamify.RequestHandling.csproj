@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="Models\Requests\" />
     <Folder Include="Properties\" />
     <Folder Include="Providers\DtoProviders\" />
     <Folder Include="Providers\Interfaces\" />
